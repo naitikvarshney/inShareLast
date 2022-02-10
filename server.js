@@ -7,8 +7,17 @@ app.use(express.static('public'));
 app.use(express.static(__dirname));
 app.use(express.json());
 
+const cors = require('cors');
+// Cors
+const corsOptions = {
+  origin: process.env.ALLOWED_CLIENTS.split(',')
+  // ['http://localhost:3000', 'http://localhost:5000', 'http://localhost:3300']
+}
+
 const connectDB = require('./config/db');
 connectDB();
+
+app.use(cors(corsOptions));
 
 app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, '/index.html'));
